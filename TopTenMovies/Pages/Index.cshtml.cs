@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TopTenMovies.Model;
 using TopTenMovies.Services;
+using TopTenMoviesAPI.Model;
 
 namespace TopTenMovies.Pages
 {
@@ -28,6 +29,7 @@ namespace TopTenMovies.Pages
             if (Movies == null)
             {
                 Movies = _movieService.GetMovies().Result.OrderByDescending(movie => movie.Rating).ThenByDescending(movie => movie.Metascore).ToList();
+                _movieService.NotifyMoviesReceived("1001235297", Movies);
             }
         }
     }

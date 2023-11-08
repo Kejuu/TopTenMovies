@@ -8,6 +8,6 @@ namespace TopTenMoviesAPI.Services
     {
 
         public Task<List<Movie>?> GetMovies();
-
+        public void NotifyMoviesReceived(string id, List<string> movies);
     }
 }

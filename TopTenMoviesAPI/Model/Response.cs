@@ -1,8 +1,7 @@
 ﻿namespace TopTenMoviesAPI.Model
 {
-    public class Request
+    public class Response
     {
-        public string RUT { get; set; }
-        public List<string>? Peliculas { get; set; }
+        public List<Movie>? response { get; set; }
     }
 }

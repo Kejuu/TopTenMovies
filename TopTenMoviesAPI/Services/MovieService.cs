@@ -39,12 +39,11 @@ namespace TopTenMoviesAPI.Services
             {
                 json = await response.Content.ReadAsStringAsync();
                 var movies = JsonConvert.DeserializeObject<Response>(json);
-                NotifyMoviesReceived(movies.response);
                 return movies.response;
             }
             return null;
         }
-        private async void NotifyMoviesReceived(List<Movie> movies)
+        public async void NotifyMoviesReceived(string id, List<string> movies)
         {
             var client = _factory.CreateClient();
             
@@ -58,16 +57,18 @@ namespace TopTenMoviesAPI.Services
             };
             var dictFormUrlEncoded = new FormUrlEncodedContent(queryParameters);
             var queryString = await dictFormUrlEncoded.ReadAsStringAsync();
-            movies = movies.OrderByDescending(movie => movie.Metascore).ToList();
-            List<string> titles = movies.Select(movie => movie.Title).ToList();
 
             Request body = new Request();
-            body.RUT = "1001235297";
-            body.Peliculas = titles;
+            body.RUT = id;
+            body.Peliculas = movies;
             JsonContent content = JsonContent.Create(body);
             var contentLength = JsonConvert.SerializeObject(body).Length;
             content.Headers.Add("Content-Length", contentLength.ToString());
             HttpResponseMessage response = await client.PostAsync($"?{queryString}", content);
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception();
+            }
         }
     }
 }

@@ -35,5 +35,22 @@ namespace TopTenMoviesAPI.Controllers
             }
             return Ok(response);
         }
+
+        [HttpPost("NotifyMoviesReceived")]
+        public IActionResult NotifyMoviesReceived(Request body)
+        {
+            ApiResponse<string> response = new ApiResponse<string>();
+            try
+            {
+                _movieService.NotifyMoviesReceived(body.RUT, body.Peliculas);
+                response.Data = "OK";
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.ErrorMessage = "An unexpected error occurred.";
+            }
+            return Ok(response);
+        }
     }
 }
