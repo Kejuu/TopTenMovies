@@ -1,0 +1,55 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center" style="margin-bottom: 10px">
+
+    <form method="post" asp-page-handler="GetMovies">
+        <button class="btn btn-primary">Get Top 10 Movies</button>
+    </form>
+</div>
+        @if (Model.Movies != null)
+        {
+            <div id="Grid" align="center" style="margin-bottom: 10px">
+                <table cellpadding="5" cellspacing="0" style="border: 1px solid #ccc;font-size: 9pt;font-family:Arial">
+                    <tr>
+                        <th style="background-color: #B8DBFD;border: 1px solid #ccc">Title</th>
+                        <th style="background-color: #B8DBFD;border: 1px solid #ccc">Year</th>
+                        <th style="background-color: #B8DBFD;border: 1px solid #ccc">Rating</th>
+                        <th style="background-color: #B8DBFD;border: 1px solid #ccc">Metascore</th>
+                        <th style="background-color: #B8DBFD;border: 1px solid #ccc">Director</th>
+                    </tr>
+
+            @foreach (var movie in Model.Movies)
+            {
+                <tr>
+                    <td style="width:120px;border: 1px solid #ccc">@movie.Title</td>
+                    <td style="width:120px;border: 1px solid #ccc">@movie.Year</td>
+                    <td style="width:120px;border: 1px solid #ccc">@movie.Rating</td>
+                    <td style="width:120px;border: 1px solid #ccc">@movie.Metascore</td>
+                    <td style="width:120px;border: 1px solid #ccc">@movie.Director</td>
+                </tr>
+            }
+        
+    </table>
+</div>
+        }
+
+@section Scripts
+    {
+    <script>
+        function Load() {
+            $("button").html('@GetList()');
+        }
+
+    </script>
+}
+
+@functions {
+    public Task GetList()
+    {
+        return Model.OnPostGetMovies();
+    }
+}
